@@ -25,14 +25,15 @@ namespace WEMA_BANK.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<State>>> GetStates()
         {
-            return await _context.States.ToListAsync();
+            return await _context.States.Include(x => x.Lgas).ToListAsync();
         }
 
         // GET: api/States/5
         [HttpGet("{id}")]
         public async Task<ActionResult<State>> GetState(int id)
         {
-            var state = await _context.States.FindAsync(id);
+            var get = await _context.States.Include(x => x.Lgas).ToListAsync();
+            var state = get.Where(x => x.StateId == id).FirstOrDefault();
 
             if (state == null)
             {
