@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WEMA_BANK.Models;
 using WEMA_BANK.Models.DB;
 
 namespace WEMA_BANK.Controllers
@@ -32,6 +33,21 @@ namespace WEMA_BANK.Controllers
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await _context.Customers.FindAsync(id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return customer;
+        }
+
+
+        // GET: api/Customers/email
+        [HttpGet("{email}")]
+        private async Task<ActionResult<Customer>> GetCustomerByEmail(string email)
+        {
+            var customer = await _context.Customers.FindAsync(email);
 
             if (customer == null)
             {
@@ -77,8 +93,40 @@ namespace WEMA_BANK.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> PostCustomer(CustomersModel customer)
         {
+            if(customer == null)
+                return StatusCode(400, (new { success = false, message = "customers information cannot be empty" }));
+
+            var check = GetCustomerByEmail(customer.Email);
+
+            if(check == null)
+            {
+                return StatusCode(309, (new { success = false, message = "Customer already exits" }));
+            }
+            else
+            {
+                // find state 
+                var checkState = _context.States
+                                         .Where(x => x.StateName.ToUpper() == customer.StateName.ToUpper())
+                                         .Include(x => x.Lgas.Select(x => x.LgaName.ToLower() == customer.Lga.ToLower()));
+
+                if(checkState.Count() > 0)
+                {
+
+
+                    Customer cus = new Customer()
+                    {
+
+                    }
+                }
+                else
+                {
+                    return StatusCode(404, (new { success = false, message = "State or Lga was not found" }));
+                }
+            }
+
+
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
