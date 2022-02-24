@@ -15,6 +15,8 @@ namespace WEMA_BANK.Models.DB
         public string PhoneNo { get; set; }
         public string Otp { get; set; }
         public bool? IsOnboard { get; set; }
-        public int State { get; set; }
+        public int Location { get; set; }
+
+        public virtual States LocationNavigation { get; set; }
     }
 }

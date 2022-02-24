@@ -11,12 +11,14 @@ namespace WEMA_BANK.Models.DB
     {
         public States()
         {
+            Customers = new HashSet<Customers>();
             Lga = new HashSet<Lga>();
         }
 
         public int StateId { get; set; }
         public string StateName { get; set; }
 
+        public virtual ICollection<Customers> Customers { get; set; }
         public virtual ICollection<Lga> Lga { get; set; }
     }
 }

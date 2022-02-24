@@ -25,25 +25,25 @@ namespace WEMA_BANK.Controllers
 
         // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customers>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<CustomerResult>>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            var qry = await (from c in _context.Customers
+                             join l in _context.Lga on c.Location equals l.LgaId
+                             join s in _context.States on l.StateId equals s.StateId
+                             where(c.IsOnboard == true)
+                             select new CustomerResult
+                             {
+                                 Email = c.Email,
+                                 PhoneNo = c.PhoneNo,
+                                 StateName = s.StateName,
+                                 Lga = l.LgaName,
+                                 isOnBoard = c.IsOnboard == true ? "YES" : "Pending"
+                             }).ToListAsync();
+
+            return qry;
         }
 
-        // GET: api/Customers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Customers>> GetCustomer(int id)
-        {
-            var customer = await _context.Customers.FindAsync(id);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return customer;
-        }
-
+        
 
      
         private async Task<List<Customers>> GetCustomerByEmail(string email)
@@ -58,37 +58,7 @@ namespace WEMA_BANK.Controllers
             return customer;
         }
 
-        // PUT: api/Customers/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
-        {
-            if (id != customer.CustomerId)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(customer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
 
 
@@ -123,8 +93,7 @@ namespace WEMA_BANK.Controllers
                                      where s.StateName.ToUpper() == customer.StateName.ToUpper() && l.LgaName.ToLower() == customer.Lga.ToLower()
                                      select new
                                      {
-                                         StateName = s.StateName,
-                                         StateId = s.StateId
+                                         Location = l.LgaId
                                      };
 
                     if (checkState.Count() > 0)
@@ -142,7 +111,7 @@ namespace WEMA_BANK.Controllers
                             Password = pass,
                             IsOnboard = false,
                             Otp = rand,
-                            State = checkState.FirstOrDefault().StateId
+                            Location = checkState.FirstOrDefault().Location
                         };
 
                         _context.Customers.Add(cus);
@@ -161,6 +130,11 @@ namespace WEMA_BANK.Controllers
                 return StatusCode(500, (new { success = false, message = $"Error : {ex} " }));
             }
         }
+
+
+
+
+
 
 
         // POST: api/Customers
@@ -219,28 +193,5 @@ namespace WEMA_BANK.Controllers
         }
 
 
-
-        // DELETE: api/Customers/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Customers>> DeleteCustomer(int id)
-        {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return customer;
-        }
-
-
-
-        private bool CustomerExists(int id)
-        {
-            return _context.Customers.Any(e => e.CustomerId == id);
-        }
     }
 }
