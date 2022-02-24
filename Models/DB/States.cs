@@ -7,12 +7,16 @@ using System.Collections.Generic;
 
 namespace WEMA_BANK.Models.DB
 {
-    public partial class Lga
+    public partial class States
     {
-        public int LgaId { get; set; }
-        public int StateId { get; set; }
-        public string LgaName { get; set; }
+        public States()
+        {
+            Lga = new HashSet<Lga>();
+        }
 
-        public virtual States State { get; set; }
+        public int StateId { get; set; }
+        public string StateName { get; set; }
+
+        public virtual ICollection<Lga> Lga { get; set; }
     }
 }

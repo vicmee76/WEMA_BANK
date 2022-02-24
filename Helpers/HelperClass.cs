@@ -49,5 +49,13 @@ namespace WEMA_BANK.Helpers
             }
 
         }
+
+
+        public string OTP()
+        {
+            Random random = new Random();
+           var str = random.Next(0, 100000000);
+            return str.ToString();
+        }
     }
 }

@@ -9,8 +9,9 @@ namespace WEMA_BANK.Models
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public int PhoneNo { get; set; }
+        public string PhoneNo { get; set; }
         public string StateName { get; set; }
         public string Lga { get; set; }
+        public string otp { get; set; }
     }
 }

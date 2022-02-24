@@ -23,16 +23,16 @@ namespace WEMA_BANK.Controllers
 
         // GET: api/States
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<State>>> GetStates()
+        public async Task<ActionResult<IEnumerable<States>>> GetStates()
         {
-            return await _context.States.Include(x => x.Lgas).ToListAsync();
+            return await _context.States.Include(x => x.Lga).ToListAsync();
         }
 
         // GET: api/States/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<State>> GetState(int id)
+        public async Task<ActionResult<States>> GetState(int id)
         {
-            var get = await _context.States.Include(x => x.Lgas).ToListAsync();
+            var get = await _context.States.Include(x => x.Lga).ToListAsync();
             var state = get.Where(x => x.StateId == id).FirstOrDefault();
 
             if (state == null)
@@ -79,7 +79,7 @@ namespace WEMA_BANK.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<State>> PostState(StateAndLGA state)
+        public async Task<ActionResult<States>> PostState(StateAndLGA state)
         {
             var check = _context.States.Where(x => x.StateName == state.StateName);
 
@@ -89,7 +89,7 @@ namespace WEMA_BANK.Controllers
             }
             else
             {
-                State s = new State()
+                States s = new States()
                 {
                     StateName = state.StateName.ToUpper()
                 };
@@ -100,7 +100,7 @@ namespace WEMA_BANK.Controllers
 
                 foreach(var l in state.lga)
                 {
-                    _context.Lgas.Add(new Lga
+                    _context.Lga.Add(new Lga
                     {
                         StateId = s.StateId,
                         LgaName = l
@@ -115,7 +115,7 @@ namespace WEMA_BANK.Controllers
 
         // DELETE: api/States/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<State>> DeleteState(int id)
+        public async Task<ActionResult<States>> DeleteState(int id)
         {
             var state = await _context.States.FindAsync(id);
             if (state == null)
