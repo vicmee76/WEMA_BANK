@@ -19,10 +19,9 @@ namespace WEMA_BANK.Helpers
 
                 return encrypt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Error";
-                throw ex;
             }
         }
 
@@ -42,10 +41,9 @@ namespace WEMA_BANK.Helpers
 
                 return decrypt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Error";
-                throw ex;
             }
 
         }

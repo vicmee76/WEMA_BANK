@@ -47,7 +47,7 @@ namespace WEMA_BANK.Controllers
 
 
 
-        private List<Customers> GetCustomerByEmail(string email)
+        public List<Customers> GetCustomerByEmail(string email)
         {
             return _customers.GetCustomerByEmail(email).ToList();
         }
@@ -82,7 +82,7 @@ namespace WEMA_BANK.Controllers
         public ActionResult<Customer> PostCustomer(CustomersModel customer)
         {
             var r = _customers.PostCustomer(customer);
-            return StatusCode(r.code, new { success = r.success, message = r.message});
+            return StatusCode(r.Code, new { r.Success, r.Message});
         }
 
 
@@ -120,7 +120,7 @@ namespace WEMA_BANK.Controllers
         public ActionResult<Customer> Onboard(CustomersModel customer)
         {
             var r = _customers.Onboard(customer); 
-            return StatusCode(r.code, new { success = r.success, message = r.message });
+            return StatusCode(r.Code, new { r.Success,  r.Message });
         }
 
 

@@ -7,9 +7,9 @@ namespace WEMA_BANK.Models
 {
     public class ResultObjects
     {
-        public int code { get; set; }
-        public bool success { get; set; }
-        public string message { get; set; }
+        public int Code { get; set; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
     }
 
     

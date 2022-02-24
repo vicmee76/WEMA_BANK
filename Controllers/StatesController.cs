@@ -45,7 +45,7 @@ namespace WEMA_BANK.Controllers
                           {
                               StateId = s.StateId,
                               StateName = s.StateName,
-                              lgas = _context.Lga.Where(x => x.StateId == s.StateId).Select(x => new LgaResult { LgaId = x.LgaId, LgaName = x.LgaName }).ToList()
+                              Lgas = _context.Lga.Where(x => x.StateId == s.StateId).Select(x => new LgaResult { LgaId = x.LgaId, LgaName = x.LgaName }).ToList()
                           }).ToListAsync();
 
             return result;
@@ -78,7 +78,7 @@ namespace WEMA_BANK.Controllers
                                 {
                                     StateId = s.StateId,
                                     StateName = s.StateName,
-                                    lgas = _context.Lga.Where(x => x.StateId == s.StateId).Select(x => new LgaResult { LgaId = x.LgaId, LgaName = x.LgaName }).ToList()
+                                    Lgas = _context.Lga.Where(x => x.StateId == s.StateId).Select(x => new LgaResult { LgaId = x.LgaId, LgaName = x.LgaName }).ToList()
                                 }).ToListAsync();
 
             var state = result.Where(x => x.StateId == id).FirstOrDefault();
@@ -131,7 +131,7 @@ namespace WEMA_BANK.Controllers
 
                 await _context.SaveChangesAsync();
 
-                foreach(var l in state.lga)
+                foreach(var l in state.Lga)
                 {
                     _context.Lga.Add(new Lga
                     {
