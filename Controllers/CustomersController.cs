@@ -167,7 +167,7 @@ namespace WEMA_BANK.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        [Route("api/[controller]/Onboard")]
+        [Route("Onboard")]
         public async Task<ActionResult<Customer>> Onboard(CustomersModel customer)
         {
             try
@@ -182,22 +182,29 @@ namespace WEMA_BANK.Controllers
 
                 if (check.Result.Count() > 0)
                 {
-                    if (check.Result.FirstOrDefault().PhoneNo == customer.PhoneNo)
+                    if(check.Result.FirstOrDefault().IsOnboard == true)
                     {
-                        if (check.Result.FirstOrDefault().PhoneNo == customer.otp)
-                        {
-                            check.Result.FirstOrDefault().IsOnboard = true;
-                            await _context.SaveChangesAsync();
-                            return StatusCode(202, (new { success = true, message = $"Customer with email {customer.Email} onboarded successfully" }));
-                        }
-                        else
-                        {
-
-                        }
+                        return StatusCode(200, (new { success = true, message = $"Customer with email {customer.Email} has already been onboarded" }));
                     }
                     else
                     {
-
+                        if (check.Result.FirstOrDefault().PhoneNo == customer.PhoneNo)
+                        {
+                            if (check.Result.FirstOrDefault().Otp == customer.otp)
+                            {
+                                check.Result.FirstOrDefault().IsOnboard = true;
+                                await _context.SaveChangesAsync();
+                                return StatusCode(202, (new { success = true, message = $"Customer with email {customer.Email} onboarded successfully" }));
+                            }
+                            else
+                            {
+                                return StatusCode(404, (new { success = false, message = "Incorrect OTP for this customer" }));
+                            }
+                        }
+                        else
+                        {
+                            return StatusCode(406, (new { success = false, message = "Customer phone number does not match" }));
+                        }
                     }
                 }
                 else
