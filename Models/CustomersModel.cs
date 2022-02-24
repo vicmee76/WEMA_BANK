@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WEMA_BANK.Models
+﻿namespace WEMA_BANK.Models
 {
     public class CustomersModel
     {

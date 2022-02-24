@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEMA_BANK", "WEMA_BANK.csproj", "{DC2BB18F-D929-4FDE-AA76-8C98A6BA67E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEMA_BANK", "WEMA_BANK.csproj", "{DC2BB18F-D929-4FDE-AA76-8C98A6BA67E6}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WemaDatabase", "..\WemaDatabase\WemaDatabase.sqlproj", "{041527DB-A7F5-4A71-8866-9B925F9A99BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WemaTest", "..\WemaTest\WemaTest.csproj", "{7507450F-506E-47A4-AF71-3B6B84C3B507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{041527DB-A7F5-4A71-8866-9B925F9A99BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{041527DB-A7F5-4A71-8866-9B925F9A99BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{041527DB-A7F5-4A71-8866-9B925F9A99BC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7507450F-506E-47A4-AF71-3B6B84C3B507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7507450F-506E-47A4-AF71-3B6B84C3B507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7507450F-506E-47A4-AF71-3B6B84C3B507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7507450F-506E-47A4-AF71-3B6B84C3B507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

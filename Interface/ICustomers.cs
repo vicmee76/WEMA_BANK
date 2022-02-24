@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WEMA_BANK.Models;
 using WEMA_BANK.Models.DB;
 

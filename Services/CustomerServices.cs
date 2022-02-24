@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WEMA_BANK.Helpers;
 using WEMA_BANK.Interface;
 using WEMA_BANK.Models;
