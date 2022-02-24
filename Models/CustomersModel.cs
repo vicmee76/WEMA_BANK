@@ -11,7 +11,18 @@ namespace WEMA_BANK.Models
         public string Password { get; set; }
         public string PhoneNo { get; set; }
         public string StateName { get; set; }
+        public string isOnBoard { get; set; }
         public string Lga { get; set; }
         public string otp { get; set; }
+    }
+
+
+    public class CustomerResult
+    {
+        public string Email { get; set; }
+        public string PhoneNo { get; set; }
+        public string StateName { get; set; }
+        public string isOnBoard { get; set; }
+        public string Lga { get; set; }
     }
 }

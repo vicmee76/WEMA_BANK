@@ -12,7 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using WEMA_BANK.Interface;
 using WEMA_BANK.Models.DB;
+using WEMA_BANK.Services;
 
 namespace WEMA_BANK
 {
@@ -31,6 +33,8 @@ namespace WEMA_BANK
             services.AddDbContext<WEMAContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WEMAConnectionString")));
 
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddTransient<ICustomers, CustomerServices>();
 
         }
 

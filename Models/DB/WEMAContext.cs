@@ -59,6 +59,12 @@ namespace WEMA_BANK.Models.DB
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.LocationNavigation)
+                    .WithMany(p => p.Customers)
+                    .HasForeignKey(d => d.Location)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Customers_States");
             });
 
             modelBuilder.Entity<Lga>(entity =>
@@ -67,6 +73,12 @@ namespace WEMA_BANK.Models.DB
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.Lga)
+                    .HasForeignKey(d => d.StateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Lga_States");
             });
 
             modelBuilder.Entity<States>(entity =>

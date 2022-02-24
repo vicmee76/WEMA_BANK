@@ -21,12 +21,16 @@ namespace WEMA_BANK.Controllers
             _context = context;
         }
 
+
+
         // GET: api/States
         [HttpGet]
         public async Task<ActionResult<IEnumerable<States>>> GetStates()
         {
             return await _context.States.Include(x => x.Lga).ToListAsync();
         }
+
+
 
         // GET: api/States/5
         [HttpGet("{id}")]
@@ -43,37 +47,7 @@ namespace WEMA_BANK.Controllers
             return state;
         }
 
-        // PUT: api/States/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutState(int id, State state)
-        {
-            if (id != state.StateId)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(state).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StateExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
         // POST: api/States
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -113,25 +87,6 @@ namespace WEMA_BANK.Controllers
             }
         }
 
-        // DELETE: api/States/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<States>> DeleteState(int id)
-        {
-            var state = await _context.States.FindAsync(id);
-            if (state == null)
-            {
-                return NotFound();
-            }
-
-            _context.States.Remove(state);
-            await _context.SaveChangesAsync();
-
-            return state;
-        }
-
-        private bool StateExists(int id)
-        {
-            return _context.States.Any(e => e.StateId == id);
-        }
+       
     }
 }
