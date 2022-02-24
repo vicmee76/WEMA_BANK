@@ -9,7 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using WEMA_BANK.Interface;
@@ -44,6 +46,10 @@ namespace WEMA_BANK
                     Title = "WEMA Api",
                     Description = "An api for the creation and onboarding of customers by sending a mock OTP to them. An onboarding process is complete when the customer verifies the OTP"
                 });
+
+                var xml = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var path = Path.Combine(AppContext.BaseDirectory, xml);
+                x.IncludeXmlComments(path);
             });
 
         }

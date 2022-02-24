@@ -23,21 +23,65 @@ namespace WEMA_BANK.Controllers
 
 
 
-        // GET: api/States
+
+        /// <summary>
+        /// This get all the list of states and local govment attached to each state
+        /// </summary>
+        /// <returns>Returns a list of states and lgas</returns>
+        /// <remarks>
+        /// 
+        /// Sample Request
+        /// GET: api/States
+        /// 
+        /// </remarks>
+        /// <response code="200">Returns a list of states and lgas </response>
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(StateResult), 200)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<States>>> GetStates()
+        public async Task<ActionResult<IEnumerable<StateResult>>> GetStates()
         {
-            return await _context.States.Include(x => x.Lga).ToListAsync();
+            var result = await (from s in _context.States
+                          select new StateResult
+                          {
+                              StateId = s.StateId,
+                              StateName = s.StateName,
+                              lgas = _context.Lga.Where(x => x.StateId == s.StateId).Select(x => new LgaResult { LgaId = x.LgaId, LgaName = x.LgaName }).ToList()
+                          }).ToListAsync();
+
+            return result;
+                
         }
 
 
 
-        // GET: api/States/5
+
+        /// <summary>
+        /// This get a particular state and local govment attached to that state
+        /// </summary>
+        /// <returns>Returns a states and associated lgas</returns>
+        /// <remarks>
+        /// 
+        /// Sample Request
+        /// // GET: api/States/5
+        /// 
+        /// </remarks>
+        /// /// <response code="200">Returns a list of states and lgas </response>
+        /// /// <response code="404">Returns Not found </response>
+        [ProducesResponseType(typeof(StateResult), 200)]
+        [ProducesResponseType(typeof(ResultObjects), 404)]
+        [Produces("application/json")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<States>> GetState(int id)
+        public async Task<ActionResult<StateResult>> GetState(int id)
         {
-            var get = await _context.States.Include(x => x.Lga).ToListAsync();
-            var state = get.Where(x => x.StateId == id).FirstOrDefault();
+            var result = await (from s in _context.States
+                                select new StateResult
+                                {
+                                    StateId = s.StateId,
+                                    StateName = s.StateName,
+                                    lgas = _context.Lga.Where(x => x.StateId == s.StateId).Select(x => new LgaResult { LgaId = x.LgaId, LgaName = x.LgaName }).ToList()
+                                }).ToListAsync();
+
+            var state = result.Where(x => x.StateId == id).FirstOrDefault();
 
             if (state == null)
             {
@@ -49,11 +93,26 @@ namespace WEMA_BANK.Controllers
 
 
 
-        // POST: api/States
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Creates a state and all local goverment for that state
+        /// </summary>
+        /// <returns>Success or error message</returns>
+        /// <remarks>
+        /// 
+        /// Sample Request
+        /// POST: api/States
+        /// 
+        /// </remarks>
+        /// <param name="state">Request Payload</param>
+        /// <response code="201">Returns the created state and lga </response>
+        /// <response code="409">Returns State already exits </response>
+        /// 
         [HttpPost]
-        public async Task<ActionResult<States>> PostState(StateAndLGA state)
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(StateResult), 201)]
+        [ProducesResponseType(typeof(ResultObjects), 409)]
+
+        public async Task<ActionResult<StateResult>> PostState(StateAndLGA state)
         {
             var check = _context.States.Where(x => x.StateName == state.StateName);
 
@@ -83,7 +142,7 @@ namespace WEMA_BANK.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetState", new { id = s.StateId }, state);
+                return CreatedAtAction("GetState", new { id = s.StateId });
             }
         }
 
