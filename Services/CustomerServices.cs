@@ -25,10 +25,6 @@ namespace WEMA_BANK.Services
         public IList<Customers> GetCustomerByEmail(string email)
         {
             var customer = _context.Customers.Where(x => x.Email.ToLower() == email.ToLower()).ToList();
-            if (customer == null)
-            {
-                return customer;
-            }
             return customer;
         }
 
