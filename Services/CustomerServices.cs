@@ -25,10 +25,6 @@ namespace WEMA_BANK.Services
         public IList<Customers> GetCustomerByEmail(string email)
         {
             var customer = _context.Customers.Where(x => x.Email.ToLower() == email.ToLower()).ToList();
-            if (customer == null)
-            {
-                return customer;
-            }
             return customer;
         }
 
@@ -86,7 +82,7 @@ namespace WEMA_BANK.Services
 
                 if (check.Count() > 0)
                 {
-                    result.code = 400;
+                    result.code = 409;
                     result.success = false;
                     result.message = "Customer already exits";
                 }
@@ -150,19 +146,19 @@ namespace WEMA_BANK.Services
         ResultObjects ICustomers.Onboard(CustomersModel customer)
         {
             ResultObjects result = new ResultObjects();
-            result.success = false;
-
             try
             {
                 if (customer == null)
                 {
                     result.code = 400;
+                    result.success = false;
                     result.message = "customers information cannot be empty";
                 }
 
                 if (customer.PhoneNo == null || customer.Email == null || customer.otp == null)
                 {
                     result.code = 400;
+                    result.success = false;
                     result.message = "Please enter email, phone, state and lga";
                 }
 
@@ -173,6 +169,7 @@ namespace WEMA_BANK.Services
                     if (check.FirstOrDefault().IsOnboard == true)
                     {
                         result.code = 200;
+                        result.success = true;
                         result.message = $"Customer with email {customer.Email} has already been onboarded";
                     }
                     else
@@ -191,12 +188,14 @@ namespace WEMA_BANK.Services
                             else
                             {
                                 result.code = 404;
+                                result.success = false;
                                 result.message = "Incorrect OTP for this customer";
                             }
                         }
                         else
                         {
                             result.code = 406;
+                            result.success = false;
                             result.message = "Customer phone number does not match";
                         }
                     }
@@ -204,12 +203,14 @@ namespace WEMA_BANK.Services
                 else
                 {
                     result.code = 404;
+                    result.success = false;
                     result.message = "This customer cannot be found";
                 }
             }
             catch (Exception ex)
             {
                 result.code = 500;
+                result.success = false;
                 result.message = $"Error : {ex} ";
             }
             return result;

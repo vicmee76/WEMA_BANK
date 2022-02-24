@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WEMA_BANK</name>
+    </assembly>
+    <members>
+        <member name="M:WEMA_BANK.Controllers.CustomersController.GetCustomers">
+            <summary>
+            This returns a list of all onboarded customers
+            </summary>
+            <returns>Returns a list of all onboarded customers</returns>
+            <remarks>
+            
+            Sample Request
+            GET: api/Customers
+            
+            </remarks>
+            <response code="200">Returns a list of all onboarded customers </response>
+        </member>
+        <member name="M:WEMA_BANK.Controllers.CustomersController.PostCustomer(WEMA_BANK.Models.CustomersModel)">
+            <summary>
+            This endpoint creates a customer and send an OTP for onboarding
+            </summary>
+            <returns>Returns a success or error message</returns>
+            <remarks>
+            
+            Sample Request
+            POST: api/Customers
+            
+            </remarks>
+            <response code="201">Returns a success model</response>
+            <response code="400">Returns an error message if required parameters are empty</response>
+            <response code="409">Returns an error message if data already exits</response>
+            <response code="404">Returns an error message if state or lga does not match</response>
+            <response code="500">Returns an error message internal server error</response>
+        </member>
+        <member name="M:WEMA_BANK.Controllers.CustomersController.Onboard(WEMA_BANK.Models.CustomersModel)">
+            <summary>
+            This endpoint creates a customer and send an OTP for onboarding
+            </summary>
+            <returns>Returns a success or error message</returns>
+            <remarks>
+            
+            Sample Request
+            POST: api/Customers/Onboard
+            
+            </remarks>
+            <response code="202">Returns a success model of onboarded customer</response>
+            <response code="200">Returns a success model if the customer has already been onboarded</response>
+            <response code="400">Returns an error message if required parameters are empty</response>
+            <response code="406">Returns an error message if customer phone number does not match</response>
+            <response code="404">Returns an error message if customer details cannot be found or OTP is incorrect</response>
+            <response code="500">Returns an error message internal server error</response>
+        </member>
+        <member name="M:WEMA_BANK.Controllers.StatesController.GetStates">
+            <summary>
+            This get all the list of states and local govment attached to each state
+            </summary>
+            <returns>Returns a list of states and lgas</returns>
+            <remarks>
+            
+            Sample Request
+            GET: api/States
+            
+            </remarks>
+            <response code="200">Returns a list of states and lgas </response>
+        </member>
+        <member name="M:WEMA_BANK.Controllers.StatesController.GetState(System.Int32)">
+            <summary>
+            This get a particular state and local govment attached to that state
+            </summary>
+            <returns>Returns a states and associated lgas</returns>
+            <remarks>
+            
+            Sample Request
+            // GET: api/States/5
+            
+            </remarks>
+            /// <response code="200">Returns a list of states and lgas </response>
+            /// <response code="404">Returns Not found </response>
+        </member>
+        <member name="M:WEMA_BANK.Controllers.StatesController.PostState(WEMA_BANK.Models.StateAndLGA)">
+            <summary>
+            Creates a state and all local goverment for that state
+            </summary>
+            <returns>Success or error message</returns>
+            <remarks>
+            
+            Sample Request
+            POST: api/States
+            
+            </remarks>
+            <param name="state">Request Payload</param>
+            <response code="201">Returns the created state and lga </response>
+            <response code="409">Returns State already exits </response>
+            
+        </member>
+    </members>
+</doc>
