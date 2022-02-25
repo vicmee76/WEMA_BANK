@@ -23,8 +23,22 @@ namespace WEMA_BANK.Controllers
 
 
         // GET: api/<GetBanksController>
+        /// <summary>
+        /// This endpoint fetches all banks from wema api
+        /// </summary>
+        /// <returns>Returns a success or error message</returns>
+        /// <remarks>
+        /// 
+        /// Sample Request
+        /// GET: api/GetAllBanks
+        /// 
+        /// </remarks>
+        /// <response code="401">Returns an error message if required parameters are empty</response>
         [HttpGet]
-        public async Task<ActionResult<ResultObjects>> GetAsync()
+        [Produces("application/json")]
+        [Route("GetAllBanks")]
+        [ProducesResponseType(typeof(ResultObjects), 401)]
+        public async Task<ActionResult<ResultObjects>> GetAllBanks()
         {
             return await _banks.GetBanks("GetAllBanks");
         }

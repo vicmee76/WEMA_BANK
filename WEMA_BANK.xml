@@ -67,6 +67,19 @@
             <response code="404">Returns an error message if customer details cannot be found or OTP is incorrect</response>
             <response code="500">Returns an error message internal server error</response>
         </member>
+        <member name="M:WEMA_BANK.Controllers.GetBanksController.GetAllBanks">
+            <summary>
+            This endpoint fetches all banks from wema api
+            </summary>
+            <returns>Returns a success or error message</returns>
+            <remarks>
+            
+            Sample Request
+            GET: api/GetAllBanks
+            
+            </remarks>
+            <response code="401">Returns an error message if required parameters are empty</response>
+        </member>
         <member name="M:WEMA_BANK.Controllers.StatesController.GetStates">
             <summary>
             This get all the list of states and local govment attached to each state

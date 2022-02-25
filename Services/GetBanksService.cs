@@ -10,12 +10,11 @@ namespace WEMA_BANK.Services
 {
     public class GetBanksService : IGetBanks
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient = new HttpClient();
         public static string _baseUrl = "https://wema-alatdev-apimgt.azure-api.net/alat-test/api/Shared/";
 
-        public GetBanksService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
+        public GetBanksService()
+        {  
         }
 
 
