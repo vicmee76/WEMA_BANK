@@ -41,7 +41,24 @@ namespace WEMA_BANK.Controllers
 
 
 
-
+        /// <summary>
+        /// This returns a single onboarded customer
+        /// </summary>
+        /// <returns>Returns a single onboarded customer</returns>
+        /// <remarks>
+        /// 
+        /// Sample Request
+        /// GET: api/Customers/GetCustomerByEmail
+        /// 
+        /// </remarks>
+        /// <param name="email">The customer email to fetch</param>
+        /// <response code="200">Returns a list of all onboarded customers </response>
+        /// <response code="404">returns not found </response>
+        [ProducesResponseType(typeof(Customers), 200)]
+        [ProducesResponseType(typeof(Customers), 404)]
+        [Produces("application/json")]
+        [Route("GetCustomerByEmail")]
+        [HttpGet]
         public List<Customers> GetCustomerByEmail(string email)
         {
             return _customers.GetCustomerByEmail(email).ToList();
@@ -74,10 +91,10 @@ namespace WEMA_BANK.Controllers
         [ProducesResponseType(typeof(ResultObjects), 500)]
         [Produces("application/json")]
         [HttpPost]
-        public ActionResult<Customer> PostCustomer(CustomersModel customer)
+        public ActionResult<ResultObjects> PostCustomer(CustomersModel customer)
         {
             var r = _customers.PostCustomer(customer);
-            return StatusCode(r.Code, new { r.Success, r.Message});
+            return r;
         }
 
 
