@@ -19,7 +19,7 @@ namespace WEMA_BANK.Services
         }
 
 
-        public IList<Customers> GetCustomerByEmail(string email)
+        public List<Customers> GetCustomerByEmail(string email)
         {
             var customer = _context.Customers.Where(x => x.Email.ToLower() == email.ToLower()).ToList();
             return customer;
@@ -28,7 +28,7 @@ namespace WEMA_BANK.Services
 
 
 
-        public IEnumerable<CustomerResult> GetCustomers()
+        public List<CustomerResult> GetCustomers()
         {
             var qry = (from c in _context.Customers
                             join l in _context.Lga on c.Location equals l.LgaId

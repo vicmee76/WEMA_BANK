@@ -34,7 +34,7 @@ namespace WEMA_BANK.Controllers
         [ProducesResponseType(typeof(CustomerResult), 200)]
         [Produces("application/json")]
         [HttpGet]
-        public ActionResult<IEnumerable<CustomerResult>> GetCustomers()
+        public List<CustomerResult> GetCustomers()
         {
             return _customers.GetCustomers().ToList();
         }
