@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WEMA_BANK.Helpers
 {
@@ -19,10 +16,9 @@ namespace WEMA_BANK.Helpers
 
                 return encrypt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Error";
-                throw ex;
             }
         }
 
@@ -42,10 +38,9 @@ namespace WEMA_BANK.Helpers
 
                 return decrypt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Error";
-                throw ex;
             }
 
         }

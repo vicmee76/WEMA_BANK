@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WEMA_BANK.Models
+﻿namespace WEMA_BANK.Models
 {
     public class CustomersModel
     {
@@ -11,9 +6,9 @@ namespace WEMA_BANK.Models
         public string Password { get; set; }
         public string PhoneNo { get; set; }
         public string StateName { get; set; }
-        public string isOnBoard { get; set; }
+        public string IsOnBoard { get; set; }
         public string Lga { get; set; }
-        public string otp { get; set; }
+        public string Otp { get; set; }
     }
 
 
@@ -22,7 +17,7 @@ namespace WEMA_BANK.Models
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public string StateName { get; set; }
-        public string isOnBoard { get; set; }
+        public string IsOnBoard { get; set; }
         public string Lga { get; set; }
     }
 }

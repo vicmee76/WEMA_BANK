@@ -1,11 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WEMA_BANK.Helpers;
 using WEMA_BANK.Interface;
 using WEMA_BANK.Models;
 using WEMA_BANK.Models.DB;
@@ -39,15 +34,32 @@ namespace WEMA_BANK.Controllers
         [ProducesResponseType(typeof(CustomerResult), 200)]
         [Produces("application/json")]
         [HttpGet]
-        public ActionResult<IEnumerable<CustomerResult>> GetCustomers()
+        public List<CustomerResult> GetCustomers()
         {
             return _customers.GetCustomers().ToList();
         }
 
 
 
-
-        private List<Customers> GetCustomerByEmail(string email)
+        /// <summary>
+        /// This returns a single onboarded customer
+        /// </summary>
+        /// <returns>Returns a single onboarded customer</returns>
+        /// <remarks>
+        /// 
+        /// Sample Request
+        /// GET: api/Customers/GetCustomerByEmail
+        /// 
+        /// </remarks>
+        /// <param name="email">The customer email to fetch</param>
+        /// <response code="200">Returns a list of all onboarded customers </response>
+        /// <response code="404">returns not found </response>
+        [ProducesResponseType(typeof(Customers), 200)]
+        [ProducesResponseType(typeof(Customers), 404)]
+        [Produces("application/json")]
+        [Route("GetCustomerByEmail")]
+        [HttpGet]
+        public List<Customers> GetCustomerByEmail(string email)
         {
             return _customers.GetCustomerByEmail(email).ToList();
         }
@@ -79,10 +91,10 @@ namespace WEMA_BANK.Controllers
         [ProducesResponseType(typeof(ResultObjects), 500)]
         [Produces("application/json")]
         [HttpPost]
-        public ActionResult<Customer> PostCustomer(CustomersModel customer)
+        public ActionResult<ResultObjects> PostCustomer(CustomersModel customer)
         {
             var r = _customers.PostCustomer(customer);
-            return StatusCode(r.code, new { success = r.success, message = r.message});
+            return r;
         }
 
 
@@ -120,7 +132,7 @@ namespace WEMA_BANK.Controllers
         public ActionResult<Customer> Onboard(CustomersModel customer)
         {
             var r = _customers.Onboard(customer); 
-            return StatusCode(r.code, new { success = r.success, message = r.message });
+            return StatusCode(r.Code, new { r.Success,  r.Message });
         }
 
 

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WEMA_BANK.Models
 {
     public class StateAndLGA
     {
         public string StateName { get; set; }
-        public List<string> lga { get; set; }
+        public List<string> Lga { get; set; }
     }
 
 
@@ -16,7 +13,7 @@ namespace WEMA_BANK.Models
     {
         public int StateId { get; set; }
         public string StateName { get; set; }
-        public List<LgaResult> lgas { get; set; }
+        public List<LgaResult> Lgas { get; set; }
     }
     
 

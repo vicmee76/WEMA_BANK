@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WEMA_BANK.Helpers;
 using WEMA_BANK.Interface;
 using WEMA_BANK.Models;
@@ -22,7 +19,7 @@ namespace WEMA_BANK.Services
         }
 
 
-        public IList<Customers> GetCustomerByEmail(string email)
+        public List<Customers> GetCustomerByEmail(string email)
         {
             var customer = _context.Customers.Where(x => x.Email.ToLower() == email.ToLower()).ToList();
             return customer;
@@ -31,7 +28,7 @@ namespace WEMA_BANK.Services
 
 
 
-        public IEnumerable<CustomerResult> GetCustomers()
+        public List<CustomerResult> GetCustomers()
         {
             var qry = (from c in _context.Customers
                             join l in _context.Lga on c.Location equals l.LgaId
@@ -43,7 +40,7 @@ namespace WEMA_BANK.Services
                                 PhoneNo = c.PhoneNo,
                                 StateName = s.StateName,
                                 Lga = l.LgaName,
-                                isOnBoard = c.IsOnboard == true ? "YES" : "Pending"
+                                IsOnBoard = c.IsOnboard == true ? "YES" : "Pending"
                             }).ToList();
 
             return qry;
@@ -59,32 +56,32 @@ namespace WEMA_BANK.Services
             {
                 if (customer == null)
                 {
-                    result.code = 400;
-                    result.success = false;
-                    result.message = "customers information cannot be empty";
+                    result.Code = 400;
+                    result.Success = false;
+                    result.Message = "customers information cannot be empty";
                 }
 
                 if (customer.PhoneNo == null || customer.Email == null || customer.StateName == null || customer.Lga == null)
                 {
-                    result.code = 400;
-                    result.success = false;
-                    result.message = "Please enter email, phone, state and lga";
+                    result.Code = 400;
+                    result.Success = false;
+                    result.Message = "Please enter email, phone, state and lga";
                 }
                    
                 if (customer.Password == null || customer.Password.Length < 8)
                 {
-                    result.code = 400;
-                    result.success = false;
-                    result.message = "Password should be more than 8 characters";
+                    result.Code = 400;
+                    result.Success = false;
+                    result.Message = "Password should be more than 8 characters";
                 }
                    
                 var check = GetCustomerByEmail(customer.Email);
 
                 if (check.Count() > 0)
                 {
-                    result.code = 409;
-                    result.success = false;
-                    result.message = "Customer already exits";
+                    result.Code = 409;
+                    result.Success = false;
+                    result.Message = "Customer already exits";
                 }
                 else
                 {
@@ -118,25 +115,25 @@ namespace WEMA_BANK.Services
                         _context.Customers.Add(cus);
                         _context.SaveChangesAsync();
 
-                        result.code = 201;
-                        result.success = true;
-                        result.message = $"Customer created but not yet onboarded; An OTO of { rand } has been sent to {customer.PhoneNo} to complete the onboarding process";
+                        result.Code = 201;
+                        result.Success = true;
+                        result.Message = $"Customer created but not yet onboarded; An OTO of { rand } has been sent to {customer.PhoneNo} to complete the onboarding process";
 
                     }
                     else
                     {
-                        result.code = 404;
-                        result.success = false;
-                        result.message = "State or Lga was not found";
+                        result.Code = 404;
+                        result.Success = false;
+                        result.Message = "State or Lga was not found";
                     }
                 }
                 return result;
             }
             catch (Exception ex)
             {
-                result.code = 500;
-                result.success = false;
-                result.message = $"Error : {ex} ";
+                result.Code = 500;
+                result.Success = false;
+                result.Message = $"Error : {ex} ";
                 return result;
             }
 
@@ -150,16 +147,16 @@ namespace WEMA_BANK.Services
             {
                 if (customer == null)
                 {
-                    result.code = 400;
-                    result.success = false;
-                    result.message = "customers information cannot be empty";
+                    result.Code = 400;
+                    result.Success = false;
+                    result.Message = "customers information cannot be empty";
                 }
 
-                if (customer.PhoneNo == null || customer.Email == null || customer.otp == null)
+                if (customer.PhoneNo == null || customer.Email == null || customer.Otp == null)
                 {
-                    result.code = 400;
-                    result.success = false;
-                    result.message = "Please enter email, phone, state and lga";
+                    result.Code = 400;
+                    result.Success = false;
+                    result.Message = "Please enter email, phone, state and lga";
                 }
 
                 var check = GetCustomerByEmail(customer.Email);
@@ -168,50 +165,50 @@ namespace WEMA_BANK.Services
                 {
                     if (check.FirstOrDefault().IsOnboard == true)
                     {
-                        result.code = 200;
-                        result.success = true;
-                        result.message = $"Customer with email {customer.Email} has already been onboarded";
+                        result.Code = 200;
+                        result.Success = true;
+                        result.Message = $"Customer with email {customer.Email} has already been onboarded";
                     }
                     else
                     {
                         if (check.FirstOrDefault().PhoneNo == customer.PhoneNo)
                         {
-                            if (check.FirstOrDefault().Otp == customer.otp)
+                            if (check.FirstOrDefault().Otp == customer.Otp)
                             {
                                 check.FirstOrDefault().IsOnboard = true;
                                  _context.SaveChangesAsync();
 
-                                result.code = 202;
-                                result.success = true;
-                                result.message = $"Customer with email {customer.Email} onboarded successfully";
+                                result.Code = 202;
+                                result.Success = true;
+                                result.Message = $"Customer with email {customer.Email} onboarded successfully";
                             }
                             else
                             {
-                                result.code = 404;
-                                result.success = false;
-                                result.message = "Incorrect OTP for this customer";
+                                result.Code = 404;
+                                result.Success = false;
+                                result.Message = "Incorrect OTP for this customer";
                             }
                         }
                         else
                         {
-                            result.code = 406;
-                            result.success = false;
-                            result.message = "Customer phone number does not match";
+                            result.Code = 406;
+                            result.Success = false;
+                            result.Message = "Customer phone number does not match";
                         }
                     }
                 }
                 else
                 {
-                    result.code = 404;
-                    result.success = false;
-                    result.message = "This customer cannot be found";
+                    result.Code = 404;
+                    result.Success = false;
+                    result.Message = "This customer cannot be found";
                 }
             }
             catch (Exception ex)
             {
-                result.code = 500;
-                result.success = false;
-                result.message = $"Error : {ex} ";
+                result.Code = 500;
+                result.Success = false;
+                result.Message = $"Error : {ex} ";
             }
             return result;
         }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,7 +45,19 @@ namespace WEMA_BANK
                 {
                     Version = "v1",
                     Title = "WEMA Api",
-                    Description = "An api for the creation and onboarding of customers by sending a mock OTP to them. An onboarding process is complete when the customer verifies the OTP"
+                    Description = "An api for the creation and onboarding of customers by sending a mock OTP to them. An onboarding process is complete when the customer verifies the OTP",
+                    TermsOfService = new Uri("https://example.com/terms"),
+
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Victor Daberechi Nwogu",
+                        Url = new Uri("https://example.com/contact")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Example License",
+                        Url = new Uri("https://example.com/license")
+                    }
                 });
 
                 var xml = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
