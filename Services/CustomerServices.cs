@@ -58,7 +58,7 @@ namespace WEMA_BANK.Services
                 {
                     result.Code = 400;
                     result.Success = false;
-                    result.Message = "customers information cannot be empty";
+                    result.Message = "Customers information cannot be empty";
                 }
 
                 if (customer.PhoneNo == null || customer.Email == null || customer.StateName == null || customer.Lga == null)
@@ -156,14 +156,14 @@ namespace WEMA_BANK.Services
                 {
                     result.Code = 400;
                     result.Success = false;
-                    result.Message = "customers information cannot be empty";
+                    result.Message = "Customers information cannot be empty";
                 }
 
                 if (customer.PhoneNo == null || customer.Email == null || customer.Otp == null)
                 {
                     result.Code = 400;
                     result.Success = false;
-                    result.Message = "Please enter email, phone, state and lga";
+                    result.Message = "Please enter email, phone, Otp";
                 }
 
                 var check = GetCustomerByEmail(customer.Email);
