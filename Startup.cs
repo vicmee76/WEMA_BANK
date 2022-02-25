@@ -38,6 +38,7 @@ namespace WEMA_BANK
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddTransient<ICustomers, CustomerServices>();
+            services.AddTransient<IGetBanks, GetBanksService>();
 
             services.AddSwaggerGen(x =>
             {
