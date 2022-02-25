@@ -95,7 +95,7 @@ namespace WEMA_BANK.Controllers
         {
             var r = _customers.PostCustomer(customer);
             return r;
-        }
+        }   
 
 
 
@@ -129,10 +129,10 @@ namespace WEMA_BANK.Controllers
         [Produces("application/json")]
         [HttpPost]
         [Route("Onboard")]
-        public ActionResult<Customer> Onboard(CustomersModel customer)
+        public ActionResult<ResultObjects> Onboard(CustomersModel customer)
         {
-            var r = _customers.Onboard(customer); 
-            return StatusCode(r.Code, new { r.Success,  r.Message });
+            var r = _customers.Onboard(customer);
+            return r;
         }
 
 
