@@ -30,8 +30,6 @@ namespace WEMA_BANK.Services
 
         public async Task<BanksModels> GetResults(string method)
         {
-            BanksModels result = new BanksModels();
-
             string url = URL(method);
             string keys = _configuration.GetSection("WemaKey").GetSection("sub-key").Value.ToString();
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", keys.ToString());
