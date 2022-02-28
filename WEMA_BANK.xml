@@ -78,7 +78,7 @@
             GET: api/GetAllBanks
             
             </remarks>
-            <response code="401">Returns an error message if required parameters are empty</response>
+            <response code="200">Returns a successfull or a failed request, please see the output model for error messages or the list of banks fetched</response>
         </member>
         <member name="M:WEMA_BANK.Controllers.StatesController.GetStates">
             <summary>

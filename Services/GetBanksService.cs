@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
@@ -11,10 +12,12 @@ namespace WEMA_BANK.Services
     public class GetBanksService : IGetBanks
     {
         private readonly HttpClient _httpClient = new HttpClient();
+        private readonly IConfiguration _configuration;
         public static string _baseUrl = "https://wema-alatdev-apimgt.azure-api.net/alat-test/api/Shared/";
 
-        public GetBanksService()
-        {  
+        public GetBanksService(IConfiguration configuration)
+        {
+            _configuration = configuration;
         }
 
 
@@ -25,43 +28,19 @@ namespace WEMA_BANK.Services
         }
 
 
-        public async Task<JObject> GetResults(string method)
+        public async Task<BanksModels> GetResults(string method)
         {
             string url = URL(method);
+            string keys = _configuration.GetSection("WemaKey").GetSection("sub-key").Value.ToString();
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Ocp-Apim-Subscription-Key", keys.ToString());
             HttpResponseMessage response = await _httpClient.GetAsync(url);
-
-            if (response.IsSuccessStatusCode == true)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var resultObject = JsonConvert.DeserializeObject<JObject>(responseBody.ToString());
-                return resultObject;
-            }
-            else
-            {
-                return null;
-            }
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var resultObject = JsonConvert.DeserializeObject<BanksModels>(responseBody.ToString());
+            return resultObject;
         }
 
 
-        public async Task<ResultObjects> GetBanks(string method)
-        {
-            ResultObjects result = new ResultObjects();
-
-            var itemObject = await GetResults(method);
-
-            if (itemObject == null)
-            {
-                return result;
-            }
-            else
-            {
-                var code = itemObject.SelectToken("statusCode");
-                var message = itemObject.SelectToken("message");
-                result.Message = message.ToString();
-                result.Code = Convert.ToInt32(code);
-            }
-            return result;
-        }
+        
 
     }
 }
