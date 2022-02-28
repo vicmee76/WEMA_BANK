@@ -10,8 +10,7 @@ namespace WEMA_BANK.Interface
     public interface IGetBanks
     {
         string URL(string method);
-        Task<JObject> GetResults(string method);
-        Task<ResultObjects> GetBanks(string method);
+        Task<BanksModels> GetResults(string method);
         
     }
 }

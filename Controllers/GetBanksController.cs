@@ -33,14 +33,14 @@ namespace WEMA_BANK.Controllers
         /// GET: api/GetAllBanks
         /// 
         /// </remarks>
-        /// <response code="401">Returns an error message if required parameters are empty</response>
+        /// <response code="200">Returns a successfull or a failed request, please see the output model for error messages or the list of banks fetched</response>
         [HttpGet]
         [Produces("application/json")]
         [Route("GetAllBanks")]
-        [ProducesResponseType(typeof(ResultObjects), 401)]
-        public async Task<ActionResult<ResultObjects>> GetAllBanks()
+        [ProducesResponseType(typeof(BanksModels), 200)]
+        public async Task<ActionResult<BanksModels>> GetAllBanks()
         {
-            return await _banks.GetBanks("GetAllBanks");
+            return await _banks.GetResults("GetAllBanks");
         }
 
     }
