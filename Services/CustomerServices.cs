@@ -103,7 +103,7 @@ namespace WEMA_BANK.Services
 
                     if (checkState.Count() > 0)
                     {
-                        // encrypt passwor
+                        // encrypt password
                         var pass = _helper.Encrypt(customer.Password);
 
                         // genetate Random OTP 
